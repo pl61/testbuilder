@@ -17,13 +17,17 @@ var detectNetwork = function(cardNumber) {
     return 'Diner\'s Club';
   } else if (cardNumber.length === 15 && ['34', '37'].includes(cardNumber.substr(0, 2))) {
     return 'American Express';
-  } else if (cardNumber[0] === '4' && [13, 16, 19].includes(cardNumber.length)) {
-    return 'Visa';
   } else if (cardNumber.length === 16 && ['51', '52', '53', '54', '55'].includes(cardNumber.substr(0, 2))) {
     return 'MasterCard';
   } else if ([16, 19].includes(cardNumber.length) && (['644', '645', '646', '647', '648', '649'].includes(cardNumber.substr(0, 3)) || cardNumber.substr(0, 2) === '65' || cardNumber.substr(0, 4) === '6011')) {
     return 'Discover';
   } else if (['5018', '5020', '5038', '6304'].includes(cardNumber.substr(0, 4)) && cardNumber.length >= 12 && cardNumber.length <= 19) {
     return 'Maestro';
+  } else if (((Number(cardNumber.substr(0, 6)) >= 622126 && Number(cardNumber.substr(0, 6)) <= 622925) || (Number(cardNumber.substr(0, 3)) >= 624 && Number(cardNumber.substr(0, 3)) <= 626) || (Number(cardNumber.substr(0, 4)) >= 6282 && Number(cardNumber.substr(0, 4)) <= 6288)) && [16, 17, 18, 19].includes(cardNumber.length)) {
+    return 'China UnionPay';
+  } else if ((['4903', '4905', '4911', '4936', '6333', '6759'].includes(cardNumber.substr(0, 4)) || ['564182', '633110'].includes(cardNumber.substr(0, 6))) && [16, 18, 19].includes(cardNumber.length)) {
+    return 'Switch';
+  } else if (cardNumber[0] === '4' && [13, 16, 19].includes(cardNumber.length)) {
+    return 'Visa';
   }
 };
