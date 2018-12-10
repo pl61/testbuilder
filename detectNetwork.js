@@ -21,5 +21,9 @@ var detectNetwork = function(cardNumber) {
     return 'Visa';
   } else if (cardNumber.length === 16 && ['51', '52', '53', '54', '55'].includes(cardNumber.substr(0, 2))) {
     return 'MasterCard';
+  } else if ([16, 19].includes(cardNumber.length) && (['644', '645', '646', '647', '648', '649'].includes(cardNumber.substr(0, 3)) || cardNumber.substr(0, 2) === '65' || cardNumber.substr(0, 4) === '6011')) {
+    return 'Discover';
+  } else if (['5018', '5020', '5038', '6304'].includes(cardNumber.substr(0, 4)) && cardNumber.length >= 12 && cardNumber.length <= 19) {
+    return 'Maestro';
   }
 };
