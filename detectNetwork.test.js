@@ -42,12 +42,13 @@
 //   });
 // });
 
-let generateCardNumber = function(length) {
+let generateCardNumber = function(prefix, length) {
   let str = '';
-  for (let i = 1; i <= length; i ++) {
+  prefix = String(prefix);
+  for (let i = 1; i <= length - prefix.length; i ++) {
     str += 0;
   }
-  return str;
+  return prefix + str;
 }
 
 describe('Diner\'s Club', function() {
@@ -189,12 +190,52 @@ describe('Maestro', function() {
     for (let length = 12; length <= 19; length ++) {
       (function(i, length) {
         it('has a prefix of ' + i + ' and a length of ' + length, function() {
-          expect(detectNetwork(i + generateCardNumber(length - i.length))).to.equal('Maestro');
+          expect(detectNetwork(generateCardNumber(i, length))).to.equal('Maestro');
         });
       })(i, length);
     }
   }
 });
 
-describe('should support China UnionPay')
-describe('should support Switch')
+describe('should support China UnionPay', function() {
+  let expect = chai.expect;
+  for (let length = 16; length <= 19; length ++) {
+    for (let i = 622126; i <= 622925; i ++) {
+      (function(i, length) {
+        it('has a prefix of ' + i + ' and a length of ' + length, function() {
+          expect(detectNetwork(generateCardNumber(i, length))).to.equal('China UnionPay');
+        });
+      })(i, length);
+    }
+    for (let i = 624; i <= 626; i ++) {
+      (function(i, length) {
+        it('has a prefix of ' + i + ' and a length of ' + length, function() {
+          expect(detectNetwork(generateCardNumber(i, length))).to.equal('China UnionPay');
+        });
+      })(i, length);
+    }
+    for (let i = 6282; i <= 6288; i ++) {
+      (function(i, length) {
+        it('has a prefix of ' + i + ' and a length of ' + length, function() {
+          expect(detectNetwork(generateCardNumber(i, length))).to.equal('China UnionPay');
+        });
+      })(i, length);
+    }
+  }
+});
+
+describe('should support Switch', function() {
+  let expect = chai.expect;
+  let prefix = [4903, 4905, 4911, 4936, 564182, 633110, 6333, 6759];
+  let length = [16, 18, 19];
+
+  for (let i of prefix) {
+    for (let j of length) {
+      (function(i, j) {
+        it('has a prefix of ' + i + ' and a length of ' + j, function() {
+          expect(detectNetwork(generateCardNumber(i, j))).to.equal('Switch');
+        });
+      })(i, j);
+    }
+  }
+});
